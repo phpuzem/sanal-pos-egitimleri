@@ -192,7 +192,8 @@ class  Vakifbank
         $result = curl_exec($ch);
 
         $xml = simplexml_load_string($result, "SimpleXMLElement", LIBXML_NOCDATA);
-        dd($xml);
+
+        return $xml;
     }
 
 
