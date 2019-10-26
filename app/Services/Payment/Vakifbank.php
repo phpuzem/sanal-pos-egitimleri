@@ -101,7 +101,7 @@ class  Vakifbank
      */
     public function setPurchaseAmount($purchaseAmount): Vakifbank
     {
-        $this->purchaseAmount = $purchaseAmount;
+        $this->purchaseAmount = number_format($purchaseAmount, 2);
 
         return $this;
     }
@@ -176,6 +176,23 @@ class  Vakifbank
         $this->merchantPassword = $merchantPassword;
 
         return $this;
+    }
+
+    public function check()
+    {
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_URL, env('VAKIFBANK_ENROLLMENT_URL'));
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ["Content-Type" => 'application/x-www-form-urlencoded']);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($this));
+
+        $result = curl_exec($ch);
+
+        $xml = simplexml_load_string($result, "SimpleXMLElement", LIBXML_NOCDATA);
+        dd($xml);
     }
 
 
