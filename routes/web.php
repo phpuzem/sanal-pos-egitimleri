@@ -23,7 +23,7 @@ Route::get('/', function () {
         ->setExpiryDate(2304)
         ->setSuccessURL("http://sanalpos.test/success")
         ->setFailureURL("http://sanalpos.test/failure")
-        ->setPurchaseAmount(99.90)
+        ->setPurchaseAmount(120.90)
         ->setVerifyEnrollmentRequestID(rand(10, 1000000))
         ->check();
 
