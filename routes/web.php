@@ -24,7 +24,7 @@ Route::get('/', function () {
         ->setSuccessURL("http://sanalpos.test/success")
         ->setFailureURL("http://sanalpos.test/failure")
         ->setPurchaseAmount(120.90)
-        ->setVerifyEnrollmentRequestID(rand(10, 1000000))
+        ->setVerifyEnrollmentRequestID(rand(10, 1000000)) //order id
         ->check();
 
 
@@ -34,3 +34,18 @@ Route::get('/', function () {
 
 
 });
+
+Route::post('/success', function () {
+
+dd(request()->all()); // Bilgileri kullanıp API POST parayı burda çekiyoruz.
+});
+
+Route::post('/failure', function () {
+
+    dd(request()->all());
+
+});
+
+
+
+
