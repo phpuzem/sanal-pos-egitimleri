@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fa503b104f700e4337a4bf209a56bc8a",
+    "content-hash": "269e6a0e84f764a052c7f98ef2d1aba0",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -1416,6 +1416,56 @@
                 "uuid"
             ],
             "time": "2018-07-19T23:38:55+00:00"
+        },
+        {
+            "name": "spatie/array-to-xml",
+            "version": "2.11.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/array-to-xml.git",
+                "reference": "bdb5bc735b0639f6f438e935b13f7ac216239679"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/array-to-xml/zipball/bdb5bc735b0639f6f438e935b13f7ac216239679",
+                "reference": "bdb5bc735b0639f6f438e935b13f7ac216239679",
+                "shasum": ""
+            },
+            "require": {
+                "ext-dom": "*",
+                "php": "^7.2"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.0",
+                "phpunit/phpunit": "^8.0",
+                "spatie/phpunit-snapshot-assertions": "^2.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\ArrayToXml\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Freek Van der Herten",
+                    "email": "freek@spatie.be",
+                    "homepage": "https://murze.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Convert an array to xml",
+            "homepage": "https://github.com/spatie/array-to-xml",
+            "keywords": [
+                "array",
+                "convert",
+                "xml"
+            ],
+            "time": "2019-08-21T06:32:31+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -4887,7 +4937,10 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": "^7.2"
+        "php": "^7.2",
+        "ext-curl": "*",
+        "ext-libxml": "*",
+        "ext-simplexml": "*"
     },
     "platform-dev": []
 }

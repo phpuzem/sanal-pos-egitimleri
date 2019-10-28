@@ -2,6 +2,9 @@
 
 namespace App\Services\Payment;
 
+use Illuminate\Http\Request;
+use Spatie\ArrayToXml\ArrayToXml;
+
 /**
  * Class Vakifbank
  * @package App\Services\Payment
@@ -57,6 +60,7 @@ class  Vakifbank
      * @var
      */
     protected $failureURL;
+
 
     /**
      * @param $verifyEnrollmentRequestID
@@ -196,5 +200,25 @@ class  Vakifbank
         return $xml;
     }
 
+    public function pay(Request $request)
+    {
+        $data = [
+            'MerchantId'              => "000100000013498",
+            'Password'                => "VAKIFTEST",
+            'TerminalNo'              => "VP000578",
+            'TransactionType'         => 'Sale',
+            'TransactionId'           => $request->input('VerifyEnrollmentRequestId'),
+            'ECI'                     => $request->input('Eci'),
+            'CAVV'                    => $request->input('Cavv'),
+            'MpiTransactionId'        => $request->input('VerifyEnrollmentRequestId'),
+            'OrderId'                 => $request->input('VerifyEnrollmentRequestId'),
+            'ClientIp'                => $request->ip(),
+            'TransactionDeviceSource' => 0,
+        ];
+
+        $xml = ArrayToXml::convert($data, 'VposRequest', true, 'utf-8');
+
+        dd($xml);
+    }
 
 }

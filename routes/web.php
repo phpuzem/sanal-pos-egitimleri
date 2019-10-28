@@ -13,7 +13,6 @@
 
 Route::get('/', function () {
 
-
     $data = (new \App\Services\Payment\Vakifbank())
         ->setMerchantID("000100000013498")
         ->setMerchantPassword("VAKIFTEST")
@@ -24,7 +23,7 @@ Route::get('/', function () {
         ->setSuccessURL("http://sanalpos.test/success")
         ->setFailureURL("http://sanalpos.test/failure")
         ->setPurchaseAmount(120.90)
-        ->setVerifyEnrollmentRequestID(rand(10, 1000000)) //order id
+        ->setVerifyEnrollmentRequestID(md5(rand(0, 100))) //order id
         ->check();
 
 
@@ -35,9 +34,13 @@ Route::get('/', function () {
 
 });
 
-Route::post('/success', function () {
+Route::post('/success', function (\Illuminate\Http\Request $request) {
 
-dd(request()->all()); // Bilgileri kullanıp API POST parayı burda çekiyoruz.
+    dump(request()->all()); // Bilgileri kullanıp API POST parayı burda çekiyoruz.
+
+    $result = (new \App\Services\Payment\Vakifbank())->pay($request);
+
+    dd($result);
 });
 
 Route::post('/failure', function () {
