@@ -22,23 +22,29 @@ Route::get('/', function () {
         ->setExpiryDate(2304)
         ->setSuccessURL("http://sanalpos.test/success")
         ->setFailureURL("http://sanalpos.test/failure")
-        ->setPurchaseAmount(120.90)
+        ->setPurchaseAmount(100)
         ->setVerifyEnrollmentRequestID(md5(rand(0, 100))) //order id
         ->check();
-
 
     $data = $data->Message->VERes;
 
     return view('paraq', compact('data'));
-
-
 });
 
 Route::post('/success', function (\Illuminate\Http\Request $request) {
 
-    dump(request()->all()); // Bilgileri kullanıp API POST parayı burda çekiyoruz.
 
     $result = (new \App\Services\Payment\Vakifbank())->pay($request);
+    if ($result->original->ResultCode != '0000') {
+        // Para çekimi başarısız.
+
+        dd($result);
+        return response()->json([
+            'message' => $result->original->ResultDetail,
+        ]);
+    }
+
+    // Para başarılı bir şekilde çekilmiştir.
 
     dd($result);
 });

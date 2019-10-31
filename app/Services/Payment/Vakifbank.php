@@ -182,6 +182,9 @@ class  Vakifbank
         return $this;
     }
 
+    /**
+     * @return \SimpleXMLElement
+     */
     public function check()
     {
         $ch = curl_init();
@@ -200,6 +203,9 @@ class  Vakifbank
         return $xml;
     }
 
+    /**
+     * @param \Illuminate\Http\Request $request
+     */
     public function pay(Request $request)
     {
         $data = [
@@ -212,13 +218,36 @@ class  Vakifbank
             'CAVV'                    => $request->input('Cavv'),
             'MpiTransactionId'        => $request->input('VerifyEnrollmentRequestId'),
             'OrderId'                 => $request->input('VerifyEnrollmentRequestId'),
-            'ClientIp'                => $request->ip(),
             'TransactionDeviceSource' => 0,
         ];
 
         $xml = ArrayToXml::convert($data, 'VposRequest', true, 'utf-8');
 
-        dd($xml);
+
+        $result = simplexml_load_string($this->curl($xml), "SimpleXMLElement", LIBXML_NOCDATA);
+
+        return response()->json($result);
     }
+
+    /**
+     * @param $xml
+     *
+     * @return bool|string
+     */
+    public function curl($xml)
+    {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "https://onlineodemetest.vakifbank.com.tr:4443/VposService/v3/Vposreq.aspx");
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, 'prmstr=' . $xml);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_SSL_OPTIONS, ["CURLOPT_SSLVERSION" => "CURL_SSLVERSION_TLSv1_1"]);
+
+        $result = curl_exec($ch);
+        curl_close($ch);
+
+        return $result;
+    }
+
 
 }
